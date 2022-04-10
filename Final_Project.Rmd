@@ -1,0 +1,25 @@
+---
+title: "Final Project"
+author: "LIST NAMES HERE"
+date: "4/10/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# List all libraries here
+library(tidyverse)
+```
+
+
+## Introduction
+
+## Methods
+
+## Results and Discussion
+
+## Conclusion
+
+## Style and Organization
