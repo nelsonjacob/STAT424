@@ -1,0 +1,60 @@
+---
+title: "Final Project: Water Absorption in Hardwoods"
+author: "Jacob Nelson, Megan Hawley, Emily Groves, Clayton Jannusch, Gavin Wilson"
+date: "4/10/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# List all libraries here
+library(tidyverse)
+```
+
+
+## Introduction
+
+A natural and sustainable building material, softwood has a variety of uses in construction and engineering. In order to advance building practices, we seek variation in moisture content of softwoods after water exposure. Softwood is hygroscopic, meaning it takes on water from its surrounding environment. The moisture content of wood impacts the viability of use in various projects. In this paper we will explore the question: what type of wood absorbs the most water?
+We will measure the absorption capabilities of wood by weighing the wood before and after leaving it submerged in water for a predetermined period of time. Controllable explanatory variables that will affect this outcome include type of wood, density of wood, temperature of the water, and length of time in the water. Uncontrollable explanatory variables that will have an effect on our measurements include the pH of water, dissolved materials in the water, time since the wood was harvested, and possible dissolving of the wood in the water. In the case of the wood dissolving, we are assuming that because the wood will only be submerged for a short amount of time, any dissolving that occurs will be negligible. Other factors can be seen in the fishbone diagram below.
+
+INSERT FISHBONE DIAGRAM HERE
+
+Various analyses have been performed on moisture content and the relation to wood samples. Our team wanted to add to this by studying the moisture content of various common softwood and hardwood samples after exposure to water. While we predict the mass of each wood sample will increase after water exposure, we would like to perform an analysis of variance of the sample moisture content. Our measurement of interest is moisture content, is operationally defined as
+
+For each of our wood types, we define a sample mean of  for each of our samples.
+This leads us to our set of hypotheses:
+
+
+To test our hypotheses, we will use a one-way ANOVA, as well as Tukey’s HSD method. For our second hypothesis, we will make a confidence interval.
+
+
+## Methods
+
+Design justification-
+
+We intend to use a one way analysis of variance. While deciding on the parameters of the experiment, resources, available environment, and time were all limiting factors. Using a one way analysis of various allows for us to compare moisture content of various wood types while keeping other variables constant. We will run our five wood samples with four replicates. The decision to analyze five types of wood was constrained by the resources available to us. Further, our choice to replicate each wood type four times was made to maximize replicates while using the space and resources we had available to us.
+
+INSERT PIC OF EXPERIMENT HERE
+
+Summary of experiment-
+
+We used samples of Ash, Cherry, Pine, Walnut and White Birch, with each four replicates. Each replicate was a square 2” wood block. All of the specimens were left in the same bucket of water for 24 hours. Their weight was taken before and after the 24 hour time period. Because of sourcing constraints, each piece of wood is from the same plank, meaning that they might not actually be independent. Another obstacle we had was the amount of time. We let the wood sit in the water for 24 hours before measuring it’s mass again.
+
+
+## Results and Discussion
+
+```{r}
+library(tidyverse)
+dat = read_csv('newdata.csv')
+ggplot(dat) +
+  geom_point( aes(x = Hardwood_Type, y = `% Increase After a Day`))+
+  ggtitle('Percent Increase in Mass for Water Soaked Wood')+
+  xlab('Wood Type')+
+  ylab('Percent Increase in Mass after 24 Hours') 
+```
+
+## Conclusion
+
+## Style and Organization
