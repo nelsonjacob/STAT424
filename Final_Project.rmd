@@ -77,7 +77,6 @@ dat$Wood_Type = as.factor(dat$Wood_Type)
 fit <- aov(Percent_Increase ~ Wood_Type, data = dat)
 summary(fit)
 ```
-
 ## Conclusion
 
 ## Style and Organization
