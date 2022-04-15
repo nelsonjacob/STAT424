@@ -31,7 +31,14 @@ For each of our wood types, we define a sample mean of  for each of our samples.
 This leads us to our set of hypotheses:
 
 
-To test our hypotheses, we will use a one-way ANOVA, as well as Tukey’s HSD method. For our second hypothesis, we will make a confidence interval.
+$H_0: \mu_{Cherry} = \mu_{Walnut} = \mu_{Ash} = \mu_{Whitebirch} = \mu_{Pine}$
+
+$H_A: \mu_{type} \ne \mu_{diffType}$ for at least two woods in the sample.
+
+
+To test our hypotheses, we will use a one-way ANOVA, as well as Tukey’s HSD method.
+
+Before any experimentation, we decided as a group to use $\alpha = 0.01$
 
 
 ## Methods
@@ -77,6 +84,34 @@ dat$Wood_Type = as.factor(dat$Wood_Type)
 fit <- aov(Percent_Increase ~ Wood_Type, data = dat)
 summary(fit)
 ```
+
+Our P-value is 2.16e-05, which is significantly less than $\alpha = 0.01$. There exists significant evidence that we can reject $H_0$, that is, the mean moisture content is different among types. 
+
+With a p-value of less than 0.0001, there is strong evidence against the null hypothesis. We reject that each wood type absorbs the same amount of water.
+
+```{r}
+TukeyHSD(fit, conf.level = 0.99)
+```
+
+Using Tukey's HSD and an $\alpha = 0.01$, we can see exactly which wood types differ from each other. 
+
+# TODO
+
+UPDATE TO REFLECT ALPHA = 0.01 In this case, the p-values suggest a difference in water absorption for wood 3 and 1, wood 4 and 1, wood 3 and 2, wood 4 and 2, wood 5 and 3, and wood 5 and 4.
+
+# TODO
+
+Check model assumptions, normality of residuals, assumption of equal variance ...
+
+
 ## Conclusion
 
+# TODO
+
+Elaborate on how what we learned can be used in engineering applications? What would we do different? Is there a difference experiment design that would have given more insight on this process (maybe blocking or two way factorial)? How can researchers replicate? 
+
 ## Style and Organization
+
+# TODO
+
+Make sure project knits well into PDF and all code is displayed according to milestone. 
