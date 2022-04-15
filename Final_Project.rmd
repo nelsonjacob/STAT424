@@ -3,8 +3,8 @@ title: "Final Project: Water Absorption in Hardwoods"
 author: "Jacob Nelson, Megan Hawley, Emily Groves, Clayton Jannusch, Gavin Wilson"
 date: "4/10/2022"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # List all libraries here
 library(tidyverse)
 library(knitr)
+library(data.table)
 ```
 
 
@@ -33,10 +34,10 @@ This leads us to our set of hypotheses:
 
 $H_0: \mu_{Cherry} = \mu_{Walnut} = \mu_{Ash} = \mu_{Whitebirch} = \mu_{Pine}$
 
-$H_A: \mu_{type} \ne \mu_{diffType}$ for at least two woods in the sample.
+$H_A: \mu_{Cherry} \ne \mu_{Walnut} \ne \mu_{Ash} \ne \mu_{Whitebirch} \ne \mu_{Pine}$
 
 
-To test our hypotheses, we will use a one-way ANOVA, as well as Tukey’s HSD method.
+To test our hypotheses, we will use a one-way ANOVA, as well as Tukey’s HSD method to see the exact interactions that effect our one-way ANOVA.
 
 Before any experimentation, we decided as a group to use $\alpha = 0.01$
 
@@ -93,25 +94,30 @@ With a p-value of less than 0.0001, there is strong evidence against the null hy
 TukeyHSD(fit, conf.level = 0.99)
 ```
 
-Using Tukey's HSD and an $\alpha = 0.01$, we can see exactly which wood types differ from each other. 
+Using Tukey's HSD and an $\alpha = 0.01$, we can see exactly which wood types differ from each other. In this case, the p-values suggest a difference in water absorption for wood 4 and 1, wood 3 and 2, wood 4 and 2, wood 5 and 3, and wood 5 and 4.  We would like to note that wood 3 and 1 would have been significant with an ALPHA = 0.05, and with more data points we potentially could have had a difference between those two at the ALPHA = 0.01 level.
 
-# TODO
 
-UPDATE TO REFLECT ALPHA = 0.01 In this case, the p-values suggest a difference in water absorption for wood 3 and 1, wood 4 and 1, wood 3 and 2, wood 4 and 2, wood 5 and 3, and wood 5 and 4.
+We now need to check the assumptions we made for the one-way ANOVA.  Below we check the normality of each wood type. 
 
-# TODO
+```{r message=FALSE}
+read_csv('newdata.csv')%>%
+  mutate(residuals = fit$residuals)%>%
+  ggplot(aes(x = Wood_Type,residuals))+geom_point(aes(color = factor(Replicate_No)))
+```
 
-Check model assumptions, normality of residuals, assumption of equal variance ...
+We notice that one data point sticks out, which is the low Ash data point, other than this singular data point, the residuals appear normal.  We also want to make sure that the Replicate_No didn't have an apparent effect on our results.  If we found one replicate No to have a trend, that could indicate human error (ex. spilling water onto the scale and not noticing).  We do not notice any trend between Replicates.
+
+```{r}
+setDT(dat)[,list(GroupVariance=var(rep(Percent_Increase,))), by=Wood_Type]
+
+```
+As we see above, the Ash group variance was much larger, this is the same conclusion that our residual plot lead us to.  Other than that, the group variances are just about the same given our N = 4 for each group.  Our assumption of equal variance is confirmed.
 
 
 ## Conclusion
 
-# TODO
+We have found that Cherry, Pine or Walnut would be the best wood to use for building applications if water absorption was a major concern.  These all had equal means in water absorption, while we had enough to reject the null hypothesis that all of the means were equal, we did not have enough evidence to show that Cherry, Pine or Walnut weren't equal.  We did find that Ash and White Birch had statistically significantly different means at the level of ALPHA = 0.01.  
 
-Elaborate on how what we learned can be used in engineering applications? What would we do different? Is there a difference experiment design that would have given more insight on this process (maybe blocking or two way factorial)? How can researchers replicate? 
+We may have also wanted to include blocking into our experimental design, as oftentimes the grain of a wood chunk is dictated by the wood plank or tree it was cut from.  Not every tree is going to have identical grain and therefore will also have different water absorption.  Including blocking in the form of different trees/planks might do a better job at accounting for variance between specific trees.
 
-## Style and Organization
-
-# TODO
-
-Make sure project knits well into PDF and all code is displayed according to milestone. 
+While this experiment made a good first look, we would recommend a supplemental study with a larger sample count per wood type.  This could potentially lead to being able to distinguish a difference in means between Cherry, Pine and Walnut.  Additionally, it may be important to look at the total amount of water absorption after an extended period of time.  There could be a case where a wood quickly absorbs water, but absorbs much less over a given time period than other wood types.  This would be an applicable study because engineering applications usually have to last for an extended period of time and our study only took into account the first 24 hours of water absorption.
