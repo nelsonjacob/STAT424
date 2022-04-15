@@ -3,8 +3,8 @@ title: "Final Project: Water Absorption in Hardwoods"
 author: "Jacob Nelson, Megan Hawley, Emily Groves, Clayton Jannusch, Gavin Wilson"
 date: "4/10/2022"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -26,7 +26,9 @@ knitr::include_graphics('fishbone.png')
 ```
 
 
-Various analyses have been performed on moisture content and the relation to wood samples. Our team wanted to add to this by studying the moisture content of various common softwood and hardwood samples after exposure to water. While we predict the mass of each wood sample will increase after water exposure, we would like to perform an analysis of variance of the sample moisture content. Our measurement of interest is moisture content, is operationally defined as
+Various analyses were performed on moisture content and the relation to wood samples. Our team wanted to add to this by studying the moisture content of various, well-known softwood and hardwood samples after exposure to water. While we predict the mass of each wood sample will increase after water exposure, we would like to perform an analysis of variance of the sample moisture content. Our measurement of interest is moisture content, which is operationally defined as
+
+$MC = \dfrac{m_{wet} - m_{dry}}{m_{dry}} (100\%)$
 
 For each of our wood types, we define a sample mean of  for each of our samples.
 This leads us to our set of hypotheses:
@@ -37,7 +39,7 @@ $H_0: \mu_{Cherry} = \mu_{Walnut} = \mu_{Ash} = \mu_{Whitebirch} = \mu_{Pine}$
 $H_A: \mu_{Cherry} \ne \mu_{Walnut} \ne \mu_{Ash} \ne \mu_{Whitebirch} \ne \mu_{Pine}$
 
 
-To test our hypotheses, we will use a one-way ANOVA, as well as Tukey’s HSD method to see the exact interactions that effect our one-way ANOVA.
+To test our null and alternative hypotheses, we will use a one-way ANOVA, as well as Tukey’s HSD method, for the post-hoc comparisons.
 
 Before any experimentation, we decided as a group to use $\alpha = 0.01$
 
@@ -46,7 +48,7 @@ Before any experimentation, we decided as a group to use $\alpha = 0.01$
 
 Design justification-
 
-We intend to use a one way analysis of variance. While deciding on the parameters of the experiment, resources, available environment, and time were all limiting factors. Using a one way analysis of various allows for us to compare moisture content of various wood types while keeping other variables constant. We will run our five wood samples with four replicates. The decision to analyze five types of wood was constrained by the resources available to us. Further, our choice to replicate each wood type four times was made to maximize replicates while using the space and resources we had available to us.
+We intend to use a one way analysis of variance. While deciding on the parameters of the experiment, resources, available environment, and time were all limiting factors. Using a one way analysis of variance allows for us to compare the moisture content of various wood types while keeping the other variables constant. We will run our five wood samples with four replicates. The decision to analyze five types of wood was constrained by the resources available to us.. Further, our decision to replicate each wood type four times was made to maximize replicates while using the space and resources we had available to us. 
 
 ```{r echo=FALSE, out.width="50%", fig.align="center", fig.cap="Experiment data collection"}
 knitr::include_graphics("wood_samples.jpg")
@@ -55,7 +57,7 @@ knitr::include_graphics("wood_samples.jpg")
 
 Summary of experiment-
 
-We used samples of Ash, Cherry, Pine, Walnut and White Birch, with each four replicates. Each replicate was a square 2” wood block. All of the specimens were left in the same bucket of water for 24 hours. Their weight was taken before and after the 24 hour time period. Because of sourcing constraints, each piece of wood is from the same plank, meaning that they might not actually be independent. Another obstacle we had was the amount of time. We let the wood sit in the water for 24 hours before measuring it’s mass again.
+We used samples of Ash, Cherry, Pine, Walnut and White Birch, with each four replicates. Each replicate was a 2” square wood block. All of the specimens were left in the same bucket of water for 24 hours. Their weight was taken before and after the 24 hour time period. Because of sourcing constraints, each piece of wood is from the same plank, meaning that they might not actually be independent wood samples. Another obstacle we had to overcome was the amount of time. We let the wood sit in the water for 24 hours before measuring its mass again. This time period was chosen in order to allow a measurable moisture intake. The positioning of the wood samples in the water bath, and the order that the weights were measured were randomly selected. It was assumed that the time between pieces being weighed would not have a significant impact on differences in moisture content.
 
 
 ## Results and Discussion
@@ -99,7 +101,7 @@ Using Tukey's HSD and an $\alpha = 0.01$, we can see exactly which wood types di
 
 We now need to check the assumptions we made for the one-way ANOVA.  Below we check the normality of each wood type. 
 
-```{r message=FALSE}
+```{r message=FALSE,echo=FALSE ,out.width="80%", fig.align="center"}
 read_csv('newdata.csv')%>%
   mutate(residuals = fit$residuals)%>%
   ggplot(aes(x = Wood_Type,residuals))+geom_point(aes(color = factor(Replicate_No)))
